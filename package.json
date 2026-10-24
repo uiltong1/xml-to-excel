@@ -1,0 +1,30 @@
+{
+  "name": "xml-to-excel-lambda",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "postinstall": "node scripts/patch-vercel-expect.js",
+    "test": "tsx --test src/nfe/__tests__/*.test.ts",
+    "typecheck": "tsc --noEmit",
+    "nfe:csv": "tsx scripts/run-nfe-csv.ts",
+    "deploy": "npx serverless deploy"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@types/aws-lambda": "^8.10.164",
+    "@types/node": "^26.6.5",
+    "@vercel/node": "^26.0.0",
+    "esbuild": "^0.28.2",
+    "serverless": "^4.45.0",
+    "tsx": "^4.23.15",
+    "typescript": "^7.0.2"
+  },
+  "dependencies": {
+    "fast-xml-parser": "^5.11.2",
+    "fflate": "^0.8.3"
+  }
+}
