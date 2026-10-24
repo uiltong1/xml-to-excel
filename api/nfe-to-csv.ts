@@ -29,7 +29,7 @@ const UPLOAD_PAGE = `<!DOCTYPE html>
 <body>
   <fieldset>
     <legend><b>Gerar CSV de NF-e</b></legend>
-    <form method="POST" action="/api/nfe-to-csv" enctype="multipart/form-data">
+    <form method="POST" action="/nfe-to-csv" enctype="multipart/form-data">
       <input type="file" name="file" accept=".zip,application/zip" required />
       <br />
       <button type="submit">Gerar e baixar CSV</button>

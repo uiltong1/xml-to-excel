@@ -46,10 +46,10 @@ npx vercel dev
 # → http://localhost:3000
 
 # 3. Enviar o ZIP e baixar o CSV
-curl -F "file=@xml/notas.zip" http://localhost:3000/api/nfe-to-csv -o consolidado.csv
+curl -F "file=@xml/notas.zip" http://localhost:3000/nfe-to-csv -o consolidado.csv
 ```
 
-No navegador, abra **http://localhost:3000/api/nfe-to-csv** — aparece uma página com seletor de arquivo que dispara o download do CSV automaticamente.
+No navegador, abra **http://localhost:3000/nfe-to-csv** — aparece uma página com seletor de arquivo que dispara o download do CSV automaticamente.
 
 ### Alternativa via CLI (sem subir servidor)
 
@@ -61,9 +61,11 @@ npm run nfe:csv -- xml/notas.zip        # gera notas.csv na pasta atual
 
 | Método | Rota | Descrição |
 |---|---|---|
-| `GET` | `/api/nfe-to-csv` | Página HTML de upload (navegador) ou instruções JSON (API) |
-| `POST` | `/api/nfe-to-csv` | Processa o `.zip` e retorna o CSV (`text/csv` com `Content-Disposition: attachment`) |
-| `OPTIONS` | `/api/nfe-to-csv` | Preflight CORS |
+| `GET` | `/nfe-to-csv` | Página HTML de upload (navegador) ou instruções JSON (API) |
+| `POST` | `/nfe-to-csv` | Processa o `.zip` e retorna o CSV (`text/csv` com `Content-Disposition: attachment`) |
+| `OPTIONS` | `/nfe-to-csv` | Preflight CORS |
+
+> A rota pública é `/nfe-to-csv` (sem `/api`): o `vercel.json` faz rewrite para a Function em `/api/nfe-to-csv`.
 
 Respostas de sucesso trazem o resumo nos headers: `x-nfe-xmls`, `x-nfe-processados`, `x-nfe-itens`, `x-nfe-falhas`.
 
@@ -75,7 +77,7 @@ O projeto já está vinculado ao projeto **xml-to-excel** na Vercel. Para public
 npm run deploy        # executa: vercel --prod
 ```
 
-A Function fica em `api/nfe-to-csv.ts` (filesystem routing da Vercel: o arquivo define a rota).
+A Function fica em `api/nfe-to-csv.ts` e é exposta em `/nfe-to-csv` via rewrite do `vercel.json`.
 
 > **Nota:** em uploads grandes o `curl` envia o header `Expect: 100-continue`, que o `vercel dev` local rejeita. O script `scripts/patch-vercel-expect.js` (executado no `postinstall`) corrige isso automaticamente apenas no ambiente local — a produção da Vercel não é afetada.
 
@@ -83,7 +85,7 @@ A Function fica em `api/nfe-to-csv.ts` (filesystem routing da Vercel: o arquivo 
 
 ```
 api/
-  nfe-to-csv.ts      # Vercel Function (rota /api/nfe-to-csv)
+  nfe-to-csv.ts      # Vercel Function (exposta em /nfe-to-csv)
   hello.ts           # Function de exemplo
 src/
   http.ts            # leitura de corpo (multipart) e mensagens de ajuda
@@ -93,6 +95,7 @@ src/
     csv.ts           # gerador de CSV (delimitador/decimal/BOM configuráveis)
     pipeline.ts      # orquestração ZIP → CSV com resumo de falhas
     types.ts         # interfaces e helpers
+vercel.json         # rewrite /nfe-to-csv -> /api/nfe-to-csv
 scripts/
   run-nfe-csv.ts     # CLI local (npm run nfe:csv)
   patch-vercel-expect.js  # patch do vercel dev (postinstall)

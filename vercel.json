@@ -1,0 +1,5 @@
+{
+  "rewrites": [
+    { "source": "/nfe-to-csv", "destination": "/api/nfe-to-csv" }
+  ]
+}
