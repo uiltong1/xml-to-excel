@@ -1,25 +1,23 @@
 {
-  "name": "xml-to-excel-lambda",
+  "name": "xml-to-excel",
   "version": "1.0.0",
-  "description": "",
+  "description": "Vercel Function que converte ZIP de NF-e (XML) em CSV consolidado",
   "main": "index.js",
   "scripts": {
     "postinstall": "node scripts/patch-vercel-expect.js",
     "test": "tsx --test src/nfe/__tests__/*.test.ts",
     "typecheck": "tsc --noEmit",
     "nfe:csv": "tsx scripts/run-nfe-csv.ts",
-    "deploy": "npx serverless deploy"
+    "deploy": "vercel --prod"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "type": "commonjs",
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.164",
     "@types/node": "^26.6.5",
     "@vercel/node": "^26.0.0",
     "esbuild": "^0.28.2",
-    "serverless": "^4.45.0",
     "tsx": "^4.23.15",
     "typescript": "^7.0.2"
   },

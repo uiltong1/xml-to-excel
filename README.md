@@ -72,7 +72,7 @@ Respostas de sucesso trazem o resumo nos headers: `x-nfe-xmls`, `x-nfe-processad
 O projeto já está vinculado ao projeto **xml-to-excel** na Vercel. Para publicar alterações:
 
 ```bash
-npx vercel --prod
+npm run deploy        # executa: vercel --prod
 ```
 
 A Function fica em `api/nfe-to-csv.ts` (filesystem routing da Vercel: o arquivo define a rota).
